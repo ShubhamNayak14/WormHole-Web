@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import axios from "axios";
 import AnimatedBackground from "./AnimatedBackground";
 import FileUpload from "./FileUpload";
 import StepCard from "./StepCard";
@@ -8,7 +9,6 @@ import ProgressIndicator from "./Progess";
 import CodeDisplay from "./CodeDisplay";
 import TransferStatus from "./TransferStatus";
 import { ArrowLeft } from "lucide-react";
-
 
 const Sender = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -28,28 +28,44 @@ const Sender = () => {
     }
   };
 
-  const handleGenerateCode = () => {
-    setCurrentStep(2);
-    setTimeout(() => {
-      setSecureCode("47X9A2");
-      setCurrentStep(3);
-    }, 1500);
-  };
+  const handleFileTransfer = async () => {
+    if (!file) return;
 
-  const simulateTransfer = () => {
     setTransferStatus("transferring");
-    setCurrentStep(4);
+    setCurrentStep(2);
 
     let progress = 0;
-    const interval = setInterval(() => {
+    const progressInterval = setInterval(() => {
       progress += 10;
       setTransferProgress(progress);
-
-      if (progress >= 100) {
-        clearInterval(interval);
-        setTransferStatus("completed");
-      }
     }, 600);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await axios.post("http://127.0.0.1:5000/send", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      clearInterval(progressInterval);
+      setTransferProgress(100);
+      setTransferStatus("completed");
+      setSecureCode(response.data.code);
+      setTimeout(() => setCurrentStep(3), 1000);
+    } catch (error) {
+      clearInterval(progressInterval);
+      setTransferStatus("error");
+      console.error("File transfer failed:", error);
+    }
+  };
+
+  const resetProcess = () => {
+    setFile(null);
+    setSecureCode(null);
+    setTransferStatus(null);
+    setTransferProgress(0);
+    setCurrentStep(1);
   };
 
   return (
@@ -58,10 +74,7 @@ const Sender = () => {
 
       <main className="pt-32 pb-20 px-6">
         <section className="container max-w-7xl mx-auto text-center">
-          <div
-            className="mx-auto max-w-3xl mb-16"
-            style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
-          >
+          <div className="mx-auto max-w-3xl mb-16">
             <div className="inline-block mb-4">
               <span className="text-black dark:text-white px-4 py-1.5 rounded-full text-sm font-medium bg-gray-200 dark:bg-gray-800">
                 Secure File Sharing
@@ -78,33 +91,24 @@ const Sender = () => {
           </div>
 
           <div className="max-w-2xl mx-auto mb-24">
-            {!secureCode && !transferStatus && (
+            {/* Step 1: File Upload */}
+            {currentStep === 1 && !secureCode && !transferStatus && (
               <FileUpload onFileChange={handleFileChange} />
             )}
 
-            {file && !secureCode && !transferStatus && (
+            {file && currentStep === 1 && (
               <div className="mt-8 text-center">
-                <button onClick={handleGenerateCode} className="px-8 py-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 shadow-lg transition duration-300 font-medium">
-                  Generate Secure Code
+                <button
+                  onClick={handleFileTransfer}
+                  className="px-8 py-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 shadow-lg transition duration-300 font-medium"
+                >
+                  Start Secure Transfer
                 </button>
               </div>
             )}
 
-            {secureCode && !transferStatus && (
-              <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-lg p-8 max-w-lg mx-auto transition-transform duration-500 ease-out hover:-translate-y-2 hover:shadow-xl">
-                <CodeDisplay code={secureCode} />
-                <div className="mt-8 text-center">
-                  <button
-                    onClick={simulateTransfer}
-                    className="px-8 py-3 bg-primary text-white rounded-full hover:bg-primary/90 shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 font-medium"
-                  >
-                    Simulate Transfer
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {transferStatus && (
+            {/* Step 2: Transfer Progress */}
+            {currentStep === 2 && transferStatus && (
               <div className="max-w-lg mx-auto">
                 <TransferStatus
                   status={transferStatus}
@@ -113,48 +117,53 @@ const Sender = () => {
               </div>
             )}
 
+            {/* Step 3: Show Generated Code */}
+            {currentStep === 3 && secureCode && (
+              <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-lg p-8 max-w-lg mx-auto transition-transform duration-500 ease-out hover:-translate-y-2 hover:shadow-xl">
+                <CodeDisplay code={secureCode} />
+                <div className="mt-8 text-center">
+                  <button
+                    onClick={resetProcess}
+                    className="px-8 py-3 bg-gray-700 text-white rounded-full hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-700 shadow-lg transition duration-300 font-medium"
+                  >
+                    Share Another File
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="mt-12">
-              <ProgressIndicator currentStep={currentStep} totalSteps={4} />
+              <ProgressIndicator currentStep={currentStep} totalSteps={3} />
             </div>
           </div>
         </section>
 
         {/* How It Works */}
-        <section
-          id="how-it-works"
-          className="container max-w-7xl mx-auto mb-32"
-        >
+        <section id="how-it-works" className="container max-w-7xl mx-auto mb-32">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-indigo-400">
               How It Works
             </h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Send files instantly with our simple 4-step process. No accounts
-              needed.
+              Send files instantly with our simple 3-step process. No accounts needed.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
-            {[...Array(4)].map((_, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+            {[...Array(3)].map((_, index) => (
               <StepCard
                 key={index}
                 number={index + 1}
-                title={
-                  [
-                    "Select Your File",
-                    "Generate a Secure Code",
-                    "Share the Code",
-                    "Transfer & Confirm",
-                  ][index]
-                }
-                description={
-                  [
-                    "Click 'Choose File' and upload the file you want to send securely.",
-                    "Click 'Send' to create a unique one-time code for secure transfer.",
-                    "Send the generated code to your recipient—they'll use it to retrieve the file.",
-                    "Once the recipient enters the code, the file transfers instantly with confirmation.",
-                  ][index]
-                }
+                title={[
+                  "Select Your File",
+                  "Securely Transfer File",
+                  "Receive Secure Code",
+                ][index]}
+                description={[
+                  "Click 'Choose File' and upload the file you want to send securely.",
+                  "The file is encrypted and securely transferred. A progress bar shows the transfer status.",
+                  "Once transfer completes, you'll get a one-time secure code to share with your recipient.",
+                ][index]}
                 icon={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
