@@ -1,0 +1,331 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+
+
+@theme {
+  /* Radius */
+  --radius: 0.75rem;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* ==============================
+     Light Mode Colors
+     ============================== */
+
+  /* Base Colors */
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(224 71.4% 4.1%);
+
+  /* Neutrals */
+  --color-neutral-50: hsl(220 20% 98%);
+  --color-neutral-100: hsl(220 14.3% 95.9%);
+  --color-neutral-200: hsl(220 13% 91%);
+  --color-neutral-300: hsl(216 12.2% 83.9%);
+  --color-neutral-400: hsl(218 10.6% 64.9%);
+  --color-neutral-500: hsl(220 8.9% 46.1%);
+  --color-neutral-600: hsl(215 13.8% 34.1%);
+  --color-neutral-700: hsl(217 19.1% 26.7%);
+  --color-neutral-800: hsl(215 27.9% 16.9%);
+  --color-neutral-900: hsl(221 39.3% 11%);
+  --color-neutral-950: hsl(224 71.4% 4.1%);
+
+  /* Primary Palette */
+  --color-primary-50: hsl(213 100% 98%);
+  --color-primary-100: hsl(214 95.5% 93.2%);
+  --color-primary-200: hsl(213 96.9% 87.3%);
+  --color-primary-300: hsl(212 96.4% 78.4%);
+  --color-primary-400: hsl(213 93.9% 67.8%);
+  --color-primary-500: hsl(217 91.5% 59.8%);
+  --color-primary-600: hsl(221 83.2% 53.3%);
+  --color-primary-700: hsl(224 76.3% 48%);
+  --color-primary-800: hsl(226 70.7% 40.2%);
+  --color-primary-900: hsl(224 64.3% 32.9%);
+  --color-primary-950: hsl(226 57.1% 21%);
+
+  /* Secondary Palette */
+  --color-secondary-50: hsl(180 85% 95.2%);
+  --color-secondary-100: hsl(180 85.7% 90%);
+  --color-secondary-200: hsl(178 85.3% 81.2%);
+  --color-secondary-300: hsl(178 76.2% 69.6%);
+  --color-secondary-400: hsl(178 69.4% 58%);
+  --color-secondary-500: hsl(179 65.1% 47.8%);
+  --color-secondary-600: hsl(180 65.4% 39.6%);
+  --color-secondary-700: hsl(181 61.9% 33.5%);
+  --color-secondary-800: hsl(182 60% 27.8%);
+  --color-secondary-900: hsl(183 60.2% 24.1%);
+  --color-secondary-950: hsl(185 73.3% 15.3%);
+
+  /* Accent Palette */
+  --color-accent-50: hsl(270 100% 98%);
+  --color-accent-100: hsl(269 100% 95.5%);
+  --color-accent-200: hsl(269 96.9% 91.4%);
+  --color-accent-300: hsl(268 95.3% 84.7%);
+  --color-accent-400: hsl(270 95.2% 75.3%);
+  --color-accent-500: hsl(271 91.3% 65.9%);
+  --color-accent-600: hsl(272 81.1% 55.9%);
+  --color-accent-700: hsl(273 67.2% 47.3%);
+  --color-accent-800: hsl(274 65.6% 39.8%);
+  --color-accent-900: hsl(274 63.8% 33.5%);
+  --color-accent-950: hsl(276 75% 19.6%);
+
+  /* Success Palette */
+  --color-success-50: hsl(138 76.5% 97.3%);
+  --color-success-100: hsl(141 78.9% 93.9%);
+  --color-success-200: hsl(141 75.6% 86.1%);
+  --color-success-300: hsl(142 68.8% 74.5%);
+  --color-success-400: hsl(142 64.5% 62%);
+  --color-success-500: hsl(142 70.6% 45.3%);
+  --color-success-600: hsl(142 76.6% 36.3%);
+  --color-success-700: hsl(142 71.8% 29.2%);
+  --color-success-800: hsl(143 64.2% 24.1%);
+  --color-success-900: hsl(144 61.1% 20.2%);
+  --color-success-950: hsl(145 80.2% 10.2%);
+
+  /* Warning Palette */
+  --color-warning-50: hsl(48 100% 96.1%);
+  --color-warning-100: hsl(48 96.6% 88.8%);
+  --color-warning-200: hsl(48 96.8% 76.7%);
+  --color-warning-300: hsl(46 96.7% 64.5%);
+  --color-warning-400: hsl(43 96.4% 56.3%);
+  --color-warning-500: hsl(38 92.1% 50.2%);
+  --color-warning-600: hsl(32 94.6% 43.7%);
+  --color-warning-700: hsl(26 90.5% 37.1%);
+  --color-warning-800: hsl(23 82.5% 31.4%);
+  --color-warning-900: hsl(22 78.1% 26.5%);
+  --color-warning-950: hsl(20 80.8% 14.5%);
+
+  /* Destructive Palette */
+  --color-destructive-50: hsl(0 85.7% 97.3%);
+  --color-destructive-100: hsl(0 93.3% 94.1%);
+  --color-destructive-200: hsl(0 96.3% 89.4%);
+  --color-destructive-300: hsl(0 93.5% 81.8%);
+  --color-destructive-400: hsl(0 91.1% 71.6%);
+  --color-destructive-500: hsl(0 84.2% 60.2%);
+  --color-destructive-600: hsl(0 72.2% 50.6%);
+  --color-destructive-700: hsl(0 73.7% 41.8%);
+  --color-destructive-800: hsl(0 70% 35.3%);
+  --color-destructive-900: hsl(0 62.8% 30.6%);
+  --color-destructive-950: hsl(0 74.7% 15.5%);
+
+  /* Info Palette */
+  --color-info-50: hsl(210 100% 97.5%);
+  --color-info-100: hsl(210 100% 92.5%);
+  --color-info-200: hsl(207 100% 85.1%);
+  --color-info-300: hsl(207 100% 76.9%);
+  --color-info-400: hsl(207 100% 68.2%);
+  --color-info-500: hsl(207 100% 58.8%);
+  --color-info-600: hsl(207 100% 50.6%);
+  --color-info-700: hsl(211 100% 43.5%);
+  --color-info-800: hsl(213 100% 37.1%);
+  --color-info-900: hsl(214 95.5% 30.2%);
+  --color-info-950: hsl(217 91.2% 19.4%);
+
+  /* UI Elements */
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(224 71.4% 4.1%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(224 71.4% 4.1%);
+  --color-primary: hsl(221 83.2% 53.3%);
+  --color-primary-foreground: hsl(210 20% 98%);
+  --color-secondary: hsl(180 65.4% 39.6%);
+  --color-secondary-foreground: hsl(210 20% 98%);
+  --color-accent: hsl(272 81.1% 55.9%);
+  --color-accent-foreground: hsl(210 20% 98%);
+  --color-muted: hsl(220 14.3% 95.9%);
+  --color-muted-foreground: hsl(220 8.9% 46.1%);
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(210 20% 98%);
+  --color-success: hsl(142 70.6% 45.3%);
+  --color-success-foreground: hsl(210 20% 98%);
+  --color-warning: hsl(38 92.1% 50.2%);
+  --color-warning-foreground: hsl(224 71.4% 4.1%);
+  --color-info: hsl(207 100% 58.8%);
+  --color-info-foreground: hsl(210 20% 98%);
+  --color-border: hsl(214.3 31.8% 91.4%);
+  --color-input: hsl(214.3 31.8% 91.4%);
+  --color-ring: hsl(221 83.2% 53.3%);
+
+  /* Surface Colors */
+  --color-surface: hsl(0 0% 100%);
+  --color-surface-foreground: hsl(224 71.4% 4.1%);
+  --color-surface-elevated: hsl(0 0% 100%);
+  --color-surface-elevated-foreground: hsl(224 71.4% 4.1%);
+  --color-surface-sunken: hsl(220 14.3% 95.9%);
+  --color-surface-sunken-foreground: hsl(224 71.4% 4.1%);
+
+  /* Sidebar Colors */
+  --color-sidebar-background: hsl(0 0% 98%);
+  --color-sidebar-foreground: hsl(240 5.3% 26.1%);
+  --color-sidebar-primary: hsl(221 83.2% 53.3%);
+  --color-sidebar-primary-foreground: hsl(0 0% 98%);
+  --color-sidebar-accent: hsl(240 4.8% 95.9%);
+  --color-sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --color-sidebar-border: hsl(220 13% 91%);
+  --color-sidebar-ring: hsl(221 83.2% 53.3%);
+
+  /* ==============================
+     Dark Mode Colors
+     (Prefixed with "--color-dark-")
+     ============================== */
+
+  /* Base Colors */
+  --color-dark-background: hsl(224 71.4% 4.1%);
+  --color-dark-foreground: hsl(210 20% 98%);
+
+  /* Neutrals */
+  --color-dark-neutral-50: hsl(224 71.4% 4.1%);
+  --color-dark-neutral-100: hsl(221 39.3% 11%);
+  --color-dark-neutral-200: hsl(215 27.9% 16.9%);
+  --color-dark-neutral-300: hsl(217 19.1% 26.7%);
+  --color-dark-neutral-400: hsl(215 13.8% 34.1%);
+  --color-dark-neutral-500: hsl(220 8.9% 46.1%);
+  --color-dark-neutral-600: hsl(218 10.6% 64.9%);
+  --color-dark-neutral-700: hsl(216 12.2% 83.9%);
+  --color-dark-neutral-800: hsl(220 13% 91%);
+  --color-dark-neutral-900: hsl(220 14.3% 95.9%);
+  --color-dark-neutral-950: hsl(220 20% 98%);
+
+  /* UI Elements */
+  --color-dark-card: hsl(224 71.4% 4.1%);
+  --color-dark-card-foreground: hsl(210 20% 98%);
+  --color-dark-popover: hsl(224 71.4% 4.1%);
+  --color-dark-popover-foreground: hsl(210 20% 98%);
+  --color-dark-primary: hsl(217 91.5% 59.8%);
+  --color-dark-primary-foreground: hsl(222.2 47.4% 11.2%);
+  --color-dark-secondary: hsl(178 69.4% 58%);
+  --color-dark-secondary-foreground: hsl(222.2 47.4% 11.2%);
+  --color-dark-accent: hsl(270 95.2% 75.3%);
+  --color-dark-accent-foreground: hsl(222.2 47.4% 11.2%);
+  --color-dark-muted: hsl(215 27.9% 16.9%);
+  --color-dark-muted-foreground: hsl(217.9 10.6% 64.9%);
+  --color-dark-destructive: hsl(0 84.2% 60.2%);
+  --color-dark-destructive-foreground: hsl(210 20% 98%);
+  --color-dark-success: hsl(142 64.5% 62%);
+  --color-dark-success-foreground: hsl(222.2 47.4% 11.2%);
+  --color-dark-warning: hsl(43 96.4% 56.3%);
+  --color-dark-warning-foreground: hsl(222.2 47.4% 11.2%);
+  --color-dark-info: hsl(207 100% 68.2%);
+  --color-dark-info-foreground: hsl(222.2 47.4% 11.2%);
+  --color-dark-border: hsl(217.2 32.6% 17.5%);
+  --color-dark-input: hsl(217.2 32.6% 17.5%);
+  --color-dark-ring: hsl(217 91.5% 59.8%);
+
+  /* Surface Colors */
+  --color-dark-surface: hsl(224 71.4% 4.1%);
+  --color-dark-surface-foreground: hsl(210 20% 98%);
+  --color-dark-surface-elevated: hsl(221 39.3% 11%);
+  --color-dark-surface-elevated-foreground: hsl(210 20% 98%);
+  --color-dark-surface-sunken: hsl(215 27.9% 16.9%);
+  --color-dark-surface-sunken-foreground: hsl(210 20% 98%);
+
+  /* Sidebar Colors */
+  --color-dark-sidebar-background: hsl(224 71.4% 4.1%);
+  --color-dark-sidebar-foreground: hsl(210 20% 98%);
+  --color-dark-sidebar-primary: hsl(217 91.5% 59.8%);
+  --color-dark-sidebar-primary-foreground: hsl(222.2 47.4% 11.2%);
+  --color-dark-sidebar-accent: hsl(215 27.9% 16.9%);
+  --color-dark-sidebar-accent-foreground: hsl(210 20% 98%);
+  --color-dark-sidebar-border: hsl(217.2 32.6% 17.5%);
+  --color-dark-sidebar-ring: hsl(217 91.5% 59.8%);
+
+  /* Others */
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utilities {
+  @media (prefers-color-scheme: dark) {
+    html {
+      color-scheme: dark;
+    }
+  }
+}
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/*
+  ---break---
+*/
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/*
+  ---break---
+*/
