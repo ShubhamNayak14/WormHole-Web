@@ -141,7 +141,175 @@ const SVG = ({
           }}
           key={`path-second-${idx}`}
         />
+        
       ))}
+       {/* duplicate for more paths */}
+       {paths.map((path, idx) => (
+        <motion.path
+          d={path}
+          stroke={colors[idx]}
+          strokeWidth="2.3"
+          strokeLinecap="round"
+          variants={pathVariants}
+          initial="initial"
+          animate="animate"
+          transition={{
+            duration: svgOptions?.duration || 10,
+            ease: "linear",
+            repeat: Infinity,
+            repeatType: "loop",
+            delay: Math.floor(Math.random() * 10),
+            repeatDelay: Math.floor(Math.random() * 10 + 2),
+          }}
+          key={`path-third-${idx}`}
+        />))}
+        {/* duplicate for more paths */}
+      {paths.map((path, idx) => (
+        <motion.path
+          d={path}
+          stroke={colors[idx]}
+          strokeWidth="2.3"
+          strokeLinecap="round"
+          variants={pathVariants}
+          initial="initial"
+          animate="animate"
+          transition={{
+            duration: svgOptions?.duration || 10,
+            ease: "linear",
+            repeat: Infinity,
+            repeatType: "loop",
+            delay: Math.floor(Math.random() * 10),
+            repeatDelay: Math.floor(Math.random() * 10 + 2),
+          }}
+          key={`path-forth-${idx}`}
+        />
+        
+      ))}
+       {/* duplicate for more paths */}
+       {paths.map((path, idx) => (
+        <motion.path
+          d={path}
+          stroke={colors[idx]}
+          strokeWidth="2.3"
+          strokeLinecap="round"
+          variants={pathVariants}
+          initial="initial"
+          animate="animate"
+          transition={{
+            duration: svgOptions?.duration || 10,
+            ease: "linear",
+            repeat: Infinity,
+            repeatType: "loop",
+            delay: Math.floor(Math.random() * 10),
+            repeatDelay: Math.floor(Math.random() * 10 + 2),
+          }}
+          key={`path-fifth-${idx}`}
+        />))}
+        {/* duplicate for more paths */}
+      {paths.map((path, idx) => (
+        <motion.path
+          d={path}
+          stroke={colors[idx]}
+          strokeWidth="2.3"
+          strokeLinecap="round"
+          variants={pathVariants}
+          initial="initial"
+          animate="animate"
+          transition={{
+            duration: svgOptions?.duration || 10,
+            ease: "linear",
+            repeat: Infinity,
+            repeatType: "loop",
+            delay: Math.floor(Math.random() * 10),
+            repeatDelay: Math.floor(Math.random() * 10 + 2),
+          }}
+          key={`path-second-${idx}`}
+        />
+        
+      ))}
+       {/* duplicate for more paths */}
+       {paths.map((path, idx) => (
+        <motion.path
+          d={path}
+          stroke={colors[idx]}
+          strokeWidth="2.3"
+          strokeLinecap="round"
+          variants={pathVariants}
+          initial="initial"
+          animate="animate"
+          transition={{
+            duration: svgOptions?.duration || 10,
+            ease: "linear",
+            repeat: Infinity,
+            repeatType: "loop",
+            delay: Math.floor(Math.random() * 10),
+            repeatDelay: Math.floor(Math.random() * 10 + 2),
+          }}
+          key={`path-fifth-${idx}`}
+        />))}{/* duplicate for more paths */}
+        {paths.map((path, idx) => (
+          <motion.path
+            d={path}
+            stroke={colors[idx]}
+            strokeWidth="2.3"
+            strokeLinecap="round"
+            variants={pathVariants}
+            initial="initial"
+            animate="animate"
+            transition={{
+              duration: svgOptions?.duration || 10,
+              ease: "linear",
+              repeat: Infinity,
+              repeatType: "loop",
+              delay: Math.floor(Math.random() * 10),
+              repeatDelay: Math.floor(Math.random() * 10 + 2),
+            }}
+            key={`path-sixth-${idx}`}
+          />
+          
+        ))}
+         {/* duplicate for more paths */}
+         {paths.map((path, idx) => (
+          <motion.path
+            d={path}
+            stroke={colors[idx]}
+            strokeWidth="2.3"
+            strokeLinecap="round"
+            variants={pathVariants}
+            initial="initial"
+            animate="animate"
+            transition={{
+              duration: svgOptions?.duration || 10,
+              ease: "linear",
+              repeat: Infinity,
+              repeatType: "loop",
+              delay: Math.floor(Math.random() * 10),
+              repeatDelay: Math.floor(Math.random() * 10 + 2),
+            }}
+            key={`path-seventh-${idx}`}
+          />))}{/* duplicate for more paths */}
+          {paths.map((path, idx) => (
+            <motion.path
+              d={path}
+              stroke={colors[idx]}
+              strokeWidth="2.3"
+              strokeLinecap="round"
+              variants={pathVariants}
+              initial="initial"
+              animate="animate"
+              transition={{
+                duration: svgOptions?.duration || 10,
+                ease: "linear",
+                repeat: Infinity,
+                repeatType: "loop",
+                delay: Math.floor(Math.random() * 10),
+                repeatDelay: Math.floor(Math.random() * 10 + 2),
+              }}
+              key={`path-eighth-${idx}`}
+            />
+            
+          ))}
+       
     </motion.svg>
   );
 };

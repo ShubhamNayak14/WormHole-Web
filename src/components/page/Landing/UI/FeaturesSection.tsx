@@ -10,7 +10,7 @@ import {
 
 export const FeaturesSection = () => {
   return (
-    <div className="w-full  text-black dark:text-white transition-colors duration-500">
+    <div className="w-full  text-black dark:text-white transition-colors duration-500 lg:mt-10">
       {/* Security and Privacy Section */}
       <div className="mb-16">
         <div className="container mx-auto px-4">
@@ -18,7 +18,7 @@ export const FeaturesSection = () => {
             Security & Privacy
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 lg:mt-10">
             {/* Security Features Card */}
             <div className="bg-gradient  bg-gray-100 dark:bg-[#1a1a1a] rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 ">
               <h3 className="text-2xl font-semibold mb-6 flex items-center gap-3 text-gray-900 dark:text-white">

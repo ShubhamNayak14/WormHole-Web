@@ -23,7 +23,7 @@ export function FloatingNavDemo() {
     },
     {
       name: "Security",
-      link: "/contact",
+      link: "/security",
       icon: (
         <MessageCircle className="h-6 w-6 text-neutral-500 dark:text-white" />
       ),

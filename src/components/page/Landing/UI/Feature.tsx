@@ -37,7 +37,7 @@ const features: Feature[] = [
 const FeatureSection: React.FC = () => {
   return (
     <>
-    <h2 className="text-5xl font-bold text-center mb-12 text-gray-900 dark:text-indigo-900">
+    <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-gray-100">
       Features
         </h2>
     <div className=" text-black dark:text-white py-1 px-6 md:px-12 lg:px-24 rounded-3xl relative flex flex-col md:flex-row items-center transition-colors duration-500">
@@ -45,7 +45,7 @@ const FeatureSection: React.FC = () => {
       
       <div className="max-w-lg md:w-1/2">
       
-        <h2 className="text-3xl md:text-4xl font-bold">
+        <h2 className="text-2xl md:text-2xl font-bold text-blue-500">
           Secure & Fast File Transfers
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mt-3">
@@ -57,7 +57,7 @@ const FeatureSection: React.FC = () => {
         <img
           src="https://i.gifer.com/NTHO.gif" // Replace with actual GIF URL
           alt="File Sharing Animation"
-          className="mt-6 bg-transparent rounded-xl shadow-lg min-w-0.5"
+          className="mt-6 rounded-xl shadow-lg min-w-0.5 w-150 h-80"
         />
       </div>
 

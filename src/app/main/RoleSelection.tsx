@@ -15,7 +15,7 @@ export default function RoleSelection() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-500 p-8">
-      <div className="max-w-4xl mx-auto text-center">
+      <div className="max-w-4xl mx-auto text-center mt-20">
         {/* Header with hierarchical structure */}
         <div className="mb-12">
         <div className="flex justify-center mb-6">

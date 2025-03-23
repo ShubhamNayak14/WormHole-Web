@@ -125,14 +125,7 @@ const TransferStatus: React.FC<TransferStatusProps> = ({
         </div>
       )}
 
-      {/* Buttons for completed/error states */}
-      {(status === "completed" || status === "error") && (
-        <button
-          className="mt-4 px-6 py-2 bg-indigo-600 dark:bg-indigo-500 text-white rounded-full hover:bg-indigo-500 dark:hover:bg-indigo-400 transition-all shadow-md text-sm font-medium"
-        >
-          {status === "completed" ? "Share Another File" : "Try Again"}
-        </button>
-      )}
+    
     </div>
   );
 };

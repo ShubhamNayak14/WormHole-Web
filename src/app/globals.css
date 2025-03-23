@@ -326,6 +326,15 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+
+.gradient-text {
+  font-size: 4rem;
+  font-weight: bold;
+  background: linear-gradient(to right, #4a90e2, #9b51e0, #eb5757);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /*
   ---break---
 */

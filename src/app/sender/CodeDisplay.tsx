@@ -27,25 +27,32 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({ code }) => {
   return (
     <div className="flex flex-col items-center text-center">
       {/* Title & Description */}
-      <h3 className="text-lg font-semibold mb-1 text-foreground">
+      <h3 className="text-lg font-semibold mb-1  dark:text-foreground text-black">
         Your Secure Code
       </h3>
-      <p className="text-sm text-muted-foreground mb-4">
+      <p className="text-sm dark:text-foreground text-black mb-4">
         Share this code with the recipient to complete the transfer.
       </p>
 
       {/* Code Box */}
       <div className="relative w-full max-w-xs">
-        <div className="bg-secondary rounded-xl overflow-hidden border border-border p-0.5">
-          <div className="bg-white dark:bg-gray-900 rounded-lg py-3 px-4 flex justify-center space-x-2">
-            {code.split("").map((char, i) => (
-              <div
-                key={i}
-                className="w-10 h-12 rounded-md bg-secondary dark:bg-gray-800 flex items-center justify-center text-xl font-mono font-bold text-foreground"
-              >
-                {char}
-              </div>
-            ))}
+        <div className="relative w-full max-w-md">
+          <div className="bg-secondary rounded-xl dark:text-foreground text-black border border-border p-1">
+            <div
+              className="bg-white dark:bg-gray-900 rounded-lg py-3 px-4 grid"
+              style={{
+                gridTemplateColumns: `repeat(${code.length}, minmax(0, 1fr))`,
+              }}
+            >
+              {code.split("").map((char, i) => (
+                <div
+                  key={i}
+                  className="w-full h-10 rounded-md bg-secondary flex items-center justify-center text-2xl font-mono font-bold text-foreground"
+                >
+                  {char}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -55,8 +62,8 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({ code }) => {
           className={cn(
             "mt-3 w-full py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center space-x-2",
             isCopied
-              ? "bg-green-50 dark:bg-green-800 text-green-600 dark:text-green-300 border border-green-200 dark:border-green-700"
-              : "bg-primary/10 dark:bg-primary/20 text-primary hover:bg-primary/15 dark:hover:bg-primary/25"
+              ? "bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 border border-green-300 dark:border-green-700"
+              : "bg-blue-100 dark:bg-primary/20 text-blue-700 dark:text-primary hover:bg-blue-200 dark:hover:bg-primary/25"
           )}
         >
           {isCopied ? (

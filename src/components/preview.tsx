@@ -8,8 +8,7 @@ export function LinkPreviewDemo() {
     <div className="flex items-center justify-center w-full flex-col px-4 py-8 md:py-16 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       {/* Heading */}
       <h2 className="bg-clip-text text-left text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-sans font-bold tracking-tight">
-        File Sharing reimagined - secure and{" "}
-        <br className="hidden sm:block" />
+        File Sharing reimagined - secure and <br className="hidden sm:block" />
         <LinkPreview
           url="https://www.kaspersky.com/resource-center/definitions/what-is-a-digital-footprint"
           className="font-extrabold lg:text-5xl text-blue-500 dark:text-blue-600"
@@ -19,8 +18,7 @@ export function LinkPreviewDemo() {
         free with{" "}
         <LinkPreview
           url="https://magic-wormhole.readthedocs.io/en/latest/welcome.html#"
-          className="font-bold lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-green-400 to-yellow-300 dark:from-blue-400 dark:via-green-300 dark:to-yellow-200  dark:text-blue-600"
-        >
+          className="text-5xl  bg-clip-text text-transparent font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:text-indigo-500"     >
           Magic Wormhole
         </LinkPreview>
       </h2>

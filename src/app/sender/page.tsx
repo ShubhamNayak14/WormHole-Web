@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import React, { useState } from "react";
 import axios from "axios";
 import AnimatedBackground from "./AnimatedBackground";
@@ -8,7 +8,8 @@ import StepCard from "./StepCard";
 import ProgressIndicator from "./Progess";
 import CodeDisplay from "./CodeDisplay";
 import TransferStatus from "./TransferStatus";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Route } from "lucide-react";
+import { QRCodeCanvas } from "qrcode.react";
 
 const Sender = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -44,9 +45,13 @@ const Sender = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await axios.post("http://127.0.0.1:5000/send", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:5000/send",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       clearInterval(progressInterval);
       setTransferProgress(100);
@@ -80,9 +85,8 @@ const Sender = () => {
                 Secure File Sharing
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-indigo-400 mb-6 leading-tight">
-              Share files with <span className="text-primary">end-to-end</span>{" "}
-              encryption
+            <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold text-gray-900 dark:text-indigo-400 mb-6 leading-tight">
+              Share files with end-to-end encryption
             </h1>
             <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
               No accounts, no hassle—just secure file sharing with a one-time
@@ -102,7 +106,7 @@ const Sender = () => {
                   onClick={handleFileTransfer}
                   className="px-8 py-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 shadow-lg transition duration-300 font-medium"
                 >
-                  Start Secure Transfer
+                  Start Transfer
                 </button>
               </div>
             )}
@@ -118,9 +122,28 @@ const Sender = () => {
             )}
 
             {/* Step 3: Show Generated Code */}
+
             {currentStep === 3 && secureCode && (
               <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-lg p-8 max-w-lg mx-auto transition-transform duration-500 ease-out hover:-translate-y-2 hover:shadow-xl">
+                {/* QR Code (Magic Wormhole Style) */}
+                <div className="flex justify-center mt-6">
+                  <QRCodeCanvas
+                    value={`https://yourapp.com/receive/${secureCode}`}
+                    size={180} // Adjust size
+                    bgColor="transparent"
+                    fgColor="#6366f1" // Indigo color for wormhole look
+                    level="H" // High error correction for scanning
+                    includeMargin={true}
+                    className="rounded-lg shadow-xl "
+                  />
+                </div>
+                <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                  Scan this QR code to securely receive the file.
+                </p>
+                {/* Secure Code Display */}
                 <CodeDisplay code={secureCode} />
+
+                {/* Share Another File Button */}
                 <div className="mt-8 text-center">
                   <button
                     onClick={resetProcess}
@@ -135,17 +158,33 @@ const Sender = () => {
             <div className="mt-12">
               <ProgressIndicator currentStep={currentStep} totalSteps={3} />
             </div>
+            <div>
+              {/* Back Button */}
+              <Link href="/main">
+                <button
+                  className="mt-5 lg:gap-20 lg:px-20 gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 
+                         rounded-full shadow-md transition-transform duration-300 
+                         hover:-translate-x-1 hover:bg-gray-300 dark:hover:bg-gray-700"
+                >
+                  <span>Back to Main</span>
+                </button>
+              </Link>
+            </div>
           </div>
         </section>
 
         {/* How It Works */}
-        <section id="how-it-works" className="container max-w-7xl mx-auto mb-32">
+        <section
+          id="how-it-works"
+          className="container max-w-7xl mx-auto mb-32"
+        >
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-indigo-400">
               How It Works
             </h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Send files instantly with our simple 3-step process. No accounts needed.
+              Send files instantly with our simple 3-step process. No accounts
+              needed.
             </p>
           </div>
 
@@ -154,16 +193,20 @@ const Sender = () => {
               <StepCard
                 key={index}
                 number={index + 1}
-                title={[
-                  "Select Your File",
-                  "Securely Transfer File",
-                  "Receive Secure Code",
-                ][index]}
-                description={[
-                  "Click 'Choose File' and upload the file you want to send securely.",
-                  "The file is encrypted and securely transferred. A progress bar shows the transfer status.",
-                  "Once transfer completes, you'll get a one-time secure code to share with your recipient.",
-                ][index]}
+                title={
+                  [
+                    "Select Your File",
+                    "Securely Transfer File",
+                    "Receive Secure Code",
+                  ][index]
+                }
+                description={
+                  [
+                    "Click 'Choose File' and upload the file you want to send securely.",
+                    "The file is encrypted and securely transferred. A progress bar shows the transfer status.",
+                    "Once transfer completes, you'll get a one-time secure code to share with your recipient.",
+                  ][index]
+                }
                 icon={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
