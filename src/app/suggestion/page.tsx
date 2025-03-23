@@ -9,30 +9,64 @@ import {
   MapPin,
 } from "lucide-react";
 import { Footer } from "@/components/footer";
+import emailjs from "@emailjs/browser";
 
 type FeedbackType = "suggestion" | "bug" | "feedback";
 
 export default function Suggestion() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const serviceId: string = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
+  const templateId: string = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_SUGGESTION as string;
+  const publicKey: string = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     type: "suggestion" as FeedbackType,
-    subject: "",
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
+
+    if (!formData.name || !formData.email || !formData.message) {
+      alert("Please fill all the fields");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          user_name: formData.name,
+          user_email: formData.email,
+          type: formData.type,
+          message: formData.message,
+        },
+        publicKey
+      );
+
+      console.log('Message sent successfully:', result.text);
+      alert('Message sent successfully!');
+
+      setFormData({
+        name: "",
+        email: "",
+        type: "suggestion",
+        message: "",
+      });
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      alert('Failed to send message. Please try again.');
+    }
+
+    setIsSubmitting(false);
     // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      type: "suggestion",
-      subject: "",
-      message: "",
-    });
+
   };
 
   const handleChange = (
@@ -191,7 +225,12 @@ export default function Suggestion() {
               <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+                  disabled={isSubmitting}
+                  className={`w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium duration-200 text-white
+                    ${isSubmitting
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 active:bg-indigo-800"
+                    }`}
                 >
                   <Send className="h-5 w-5 mr-2" />
                   Send Feedback

@@ -2,8 +2,13 @@
 
 import React, { useState } from "react";
 import { MapPin, Phone, Mail, Send, MessageSquare } from "lucide-react";
+import emailjs from '@emailjs/browser';
 
 function App() {
+  const serviceId: string = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
+  const templateId: string = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string;
+  const publicKey: string = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,11 +19,37 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      alert('Please fill all the fields');
+      return;
+    }
+
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    try {
+      const result = await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          user_name: formData.name,
+          user_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        publicKey
+      );
+
+      console.log('Message sent successfully:', result.text);
+      alert('Message sent successfully!');
+
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      alert('Failed to send message. Please try again.');
+    }
+
     setIsSubmitting(false);
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    alert("Message sent successfully!");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -121,10 +152,9 @@ function App() {
               type="submit"
               disabled={isSubmitting}
               className={`w-full py-3 px-4 rounded-lg text-white font-medium flex items-center justify-center space-x-2 transition-all duration-200 
-                ${
-                  isSubmitting
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 active:bg-indigo-800"
+                ${isSubmitting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 active:bg-indigo-800"
                 }`}
             >
               <Send className="w-5 h-5" />
