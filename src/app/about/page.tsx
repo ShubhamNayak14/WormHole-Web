@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import {
   Shield,
   Zap,
@@ -188,9 +189,11 @@ function App() {
           <p className="text-lg mb-8">
             No storage. No tracking. Just private, secure file sharing.
           </p>
+          <Link href={"/main"} >
           <button className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
             Try WormHole Now 🚀
           </button>
+          </Link>
         </section>
       </div>
     </div>

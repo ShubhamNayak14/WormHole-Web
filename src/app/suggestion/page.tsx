@@ -10,11 +10,13 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/footer";
 import emailjs from "@emailjs/browser";
+import { Snackbar, Alert } from "@mui/material"; 
 
 type FeedbackType = "suggestion" | "bug" | "feedback";
 
 export default function Suggestion() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [alert, setAlert] = useState({ open: false, severity: "success", message: "" });
 
   const serviceId: string = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
   const templateId: string = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_SUGGESTION as string;
@@ -31,7 +33,7 @@ export default function Suggestion() {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.message) {
-      alert("Please fill all the fields");
+      setAlert({ open: true, severity: "warning", message: "Please fill all the fields" });
       return;
     }
 
@@ -49,10 +51,9 @@ export default function Suggestion() {
         },
         publicKey
       );
-
-      console.log('Message sent successfully:', result.text);
-      alert('Message sent successfully!');
-
+      console.log("Message sent successfully:", result.text);
+      setAlert({ open: true, severity: "success", message: "Message sent successfully!" });
+      
       setFormData({
         name: "",
         email: "",
@@ -60,8 +61,8 @@ export default function Suggestion() {
         message: "",
       });
     } catch (error) {
-      console.error('Failed to send message:', error);
-      alert('Failed to send message. Please try again.');
+      console.error("Failed to send message:", error);
+      setAlert({ open: true, severity: "error", message: "Failed to send message. Please try again." });
     }
 
     setIsSubmitting(false);
@@ -96,16 +97,16 @@ export default function Suggestion() {
 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
           {/* Location Card */}
-          <div className="bg-white dark:bg-indigo-500 rounded-xl shadow-lg p-6 mb-12 flex items-start space-x-4">
-            <MapPin className="h-6 w-6 text-indigo-600 dark:text-orange-500 flex-shrink-0 mt-1" />
+          <div className="bg-gradient-to-br from-indigo-600 to-purple-700  rounded-xl shadow-lg p-6 mb-12 flex items-start space-x-4">
+            <MapPin className="h-6 w-6 text-white dark:text-orange-500 flex-shrink-0 mt-1" />
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-accent-50">
+              <h2 className="text-xl font-semibold  text-accent-50">
                 Our Location
               </h2>
-              <p className="text-gray-600 mt-1 dark:text-accent-50">
+              <p className=" mt-1 text-accent-50">
                 Champ de Mars, 5 Av. Anatole France,
               </p>
-              <p className="text-gray-600 dark:text-accent-50">
+              <p className="text-accent-50">
                 75007 Paris, France
               </p>
             </div>
@@ -237,6 +238,19 @@ export default function Suggestion() {
                 </button>
               </div>
             </form>
+
+            
+      {/* MUI Snackbar Alert */}
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={5000}
+        onClose={() => setAlert({ ...alert, open: false })}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity as any}>
+          {alert.message}
+        </Alert>
+      </Snackbar>
 
             {/* Help Section */}
             <div className="mt-8 pt-8 border-t border-gray-200">

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { MapPin, Phone, Mail, Send, MessageSquare } from "lucide-react";
 import emailjs from '@emailjs/browser';
+import { Snackbar, Alert } from "@mui/material"; 
 
 function App() {
   const serviceId: string = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
@@ -16,12 +17,13 @@ function App() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [alert, setAlert] = useState({ open: false, severity: "success", message: "" });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-      alert('Please fill all the fields');
+      setAlert({ open: true, severity: "warning", message: "Please fill all the fields" });
       return;
     }
 
@@ -40,13 +42,14 @@ function App() {
         publicKey
       );
 
-      console.log('Message sent successfully:', result.text);
-      alert('Message sent successfully!');
+      
+      console.log("Message sent successfully:", result.text);
+      setAlert({ open: true, severity: "success", message: "Message sent successfully!" });
 
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
-      console.error('Failed to send message:', error);
-      alert('Failed to send message. Please try again.');
+      console.error("Failed to send message:", error);
+      setAlert({ open: true, severity: "error", message: "Failed to send message. Please try again." });
     }
 
     setIsSubmitting(false);
@@ -62,7 +65,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-500">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 dark:from-indigo-800 dark:to-indigo-900 text-white py-20 px-4">
+      <div className="bg-gradient-to-br from-indigo-600 to-purple-700  text-white py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h1>
           <p className="text-xl text-indigo-100">We'd love to hear from you. Let's start a conversation.</p>
@@ -163,6 +166,18 @@ function App() {
           </form>
         </div>
       </div>
+      
+      {/* MUI Snackbar Alert */}
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={5000}
+        onClose={() => setAlert({ ...alert, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity as any}>
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -13,13 +13,15 @@ export function LinkPreviewDemo() {
           url="https://www.kaspersky.com/resource-center/definitions/what-is-a-digital-footprint"
           className="font-extrabold lg:text-5xl text-blue-500 dark:text-blue-600"
         >
+          <span className="bg-clip-text text-transparent font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
           footprint
+             </span>
         </LinkPreview>{" "}
         free with{" "}
         <LinkPreview
           url="https://magic-wormhole.readthedocs.io/en/latest/welcome.html#"
-          className="text-5xl  bg-clip-text text-transparent font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:text-indigo-500"     >
-          Magic Wormhole
+          className="text-5xl  bg-clip-text text-transparent font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 ">
+         <span className="bg-clip-text text-transparent font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">  Magic Wormhole  </span>
         </LinkPreview>
       </h2>
 
