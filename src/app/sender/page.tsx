@@ -128,7 +128,7 @@ const Sender = () => {
                 {/* QR Code (Magic Wormhole Style) */}
                 <div className="flex justify-center mt-6">
                   <QRCodeCanvas
-                    value={`https://yourapp.com/receive/${secureCode}`}
+                    value={`http://localhost:3000/receiver?secureCode=${secureCode}`}
                     size={180} // Adjust size
                     bgColor="transparent"
                     fgColor="#6366f1" // Indigo color for wormhole look
