@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { FloatingNav } from "./ui/floating-navbar";
-import { HomeIcon,MessageCircle,User2Icon } from "lucide-react";
+import { HomeIcon,User2Icon ,LightbulbIcon,Shield,MessageCircleQuestion} from "lucide-react";
 export function FloatingNavDemo() {
   const navItems = [
     {
@@ -18,21 +18,21 @@ export function FloatingNavDemo() {
       name: "FAQ",
       link: "/FAQ",
       icon: (
-        <MessageCircle className="h-6 w-6 text-neutral-500 dark:text-white" />
+        <MessageCircleQuestion className="h-6 w-6 text-neutral-500 dark:text-white" />
       ),
     },
     {
       name: "Security",
       link: "/security",
       icon: (
-        <MessageCircle className="h-6 w-6 text-neutral-500 dark:text-white" />
+        <Shield className="h-6 w-6 text-neutral-500 dark:text-white" />
       ),
     },
     {
       name: "Suggetion",
       link: "/suggestion",
       icon: (
-        <MessageCircle className="h-6 w-6 text-neutral-500 dark:text-white" />
+        <LightbulbIcon className="h-6 w-6 text-neutral-500 dark:text-white" />
       ),
     },
   ];

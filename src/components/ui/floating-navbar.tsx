@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   motion,
   AnimatePresence,
@@ -22,8 +22,6 @@ export const FloatingNav = ({
 }) => {
   const { scrollYProgress } = useScroll();
 
-  const [visible, setVisible] = useState(false);
-
   useMotionValueEvent(scrollYProgress, "change", (current) => {
     // Check if current is not undefined and is a number
     if (typeof current === "number") {
@@ -40,45 +38,63 @@ export const FloatingNav = ({
       }
     }
   });
+  const [visible, setVisible] = useState(true);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
+
+  // Listen for screen size changes
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div
-        initial={{
-          opacity: 1,
-          y: -100,
-        }}
-        animate={{
-          y: visible ? 0 : -100,
-          opacity: visible ? 1 : 0,
-        }}
-        transition={{
-          duration: 0.2,
-        }}
-        className={cn(
-          "flex w-fit  fixed top-10 inset-x-0 mx-auto border border-transparent  dark:border-white/[0.2] rounded-full backdrop-blur-lg bg-white/30 dark:bg-gray-900/30 border-b shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] z-[5000] pr-2 pl-8 py-2  items-center justify-center space-x-4",
-          className
-        )}
-      >
-        {navItems.map((navItem: any, idx: number) => (
-          <Link
-            key={`link=${idx}`}
-            href={navItem.link}
-            className={cn(
-              "relative dark:text-neutral-50 items-center flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
-            )}
-          >
-            <span className="block sm:hidden">{navItem.icon}</span>
-            <span className="hidden sm:block text-sm">{navItem.name}</span>
+      {visible && (
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: isSmallScreen ? 100 : -100, // Animate from bottom on small screens
+          }}
+          animate={{
+            y: 0,
+            opacity: 1,
+          }}
+          exit={{
+            y: isSmallScreen ? 100 : -100,
+            opacity: 0,
+          }}
+          transition={{
+            duration: 0.3,
+          }}
+          className={cn(
+            "flex w-fit fixed inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full backdrop-blur-lg bg-white/30 dark:bg-gray-900/30 border-b shadow-lg z-[5000] pr-4 pl-6 py-2 items-center justify-center space-x-4",
+            isSmallScreen ? "bottom-10" : "top-10" // Switch position based on screen size
+          )}
+        >
+          {navItems.map((navItem: any, idx: number) => (
+            <Link
+              key={`link=${idx}`}
+              href={navItem.link}
+              className={cn(
+                "relative dark:text-neutral-50 items-center flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
+              )}
+            >
+              <span className="block sm:hidden">{navItem.icon}</span>
+              <span className="hidden sm:block text-sm">{navItem.name}</span>
+            </Link>
+          ))}
+          <Link href={"/contact"}>
+            <button className="border text-sm  cursor-pointer font-medium relative bg-blue-500  border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full ">
+              <span>Contact Us</span>
+              <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px  h-px" />
+            </button>
           </Link>
-        ))}
-        <Link href={"/contact"}>
-        <button className="border text-sm  cursor-pointer font-medium relative bg-blue-500  border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full ">
-          <span >Contact Us</span>
-          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px  h-px" />
-        </button>
-        </Link>
-      </motion.div>
+        </motion.div>
+      )}
     </AnimatePresence>
   );
 };
