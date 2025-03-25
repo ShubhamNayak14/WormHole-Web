@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Download,
   Link2,
@@ -9,8 +9,8 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import axios from "axios";
-import { redirect } from "react-router-dom";
-import { useRouter } from "next/navigation";
+// import { redirect } from "react-router-dom";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function App() {
   const [code, setCode] = useState("");
@@ -19,15 +19,23 @@ function App() {
   const [progress, setProgress] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const router = useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  useEffect(() => {
+    const secureCode = searchParams.get("secureCode"); // Extract code from URL
+    if (secureCode) {
+      setCode(secureCode);
+    }
+  }, [searchParams]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!code) return alert("Secure code is missing!");
-  
+
     setIsDownloading(true);
     setProgress(0);
-  
+
     try {
       const response = await axios.post(
         "http://127.0.0.1:5000/receive",
@@ -41,17 +49,17 @@ function App() {
         type: response.headers['content-type'],
       });
 
-  
+
       // Create a Blob URL to allow file download
       const url = window.URL.createObjectURL(blob);
       setDownloadUrl(url);
-  
+
       // Simulate progress update
       let currentProgress = 0;
       const interval = setInterval(() => {
         currentProgress += 10;
         setProgress(currentProgress);
-  
+
         if (currentProgress >= 100) {
           clearInterval(interval);
           setIsDownloading(false);
@@ -62,7 +70,7 @@ function App() {
       console.error("Download failed:", error);
       setIsDownloading(false);
     }
-    };
+  };
 
   const handleReset = () => {
     setCode("");
@@ -101,15 +109,15 @@ function App() {
               Your file has been received .
             </p>
             <div className="space-y-4">
-            {isCompleted && (
+              {isCompleted && (
                 <button
-                type="button"
-                onClick={handleDownload}
-                className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-200
+                  type="button"
+                  onClick={handleDownload}
+                  className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-200
                   bg-green-500 hover:bg-green-600 active:bg-green-700`}
-              >
-                Download File
-              </button>
+                >
+                  Download File
+                </button>
               )}
               <button
                 onClick={handleReset}
@@ -163,7 +171,7 @@ function App() {
               </div>
 
               {downloadUrl && (
-                
+
                 <div className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                     <Link2 size={16} />
@@ -190,15 +198,14 @@ function App() {
                 type="submit"
                 disabled={!code || isDownloading}
                 className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-200
-                  ${
-                    !code || isDownloading
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue-500 hover:bg-blue-600 active:bg-blue-700"
+                  ${!code || isDownloading
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-600 active:bg-blue-700"
                   }`}
               >
                 {isDownloading ? "Downloading..." : "Download File"}
               </button>
-              
+
             </form>
           </>
         )}
