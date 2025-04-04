@@ -43,8 +43,8 @@ export default function Faq() {
       question: "What's the maximum file size?",
       answer: (
         <div className="space-y-4">
-          <p>For files up to 5 GB, Wormhole stores your files on our servers for 24 hours.</p>
-          <p>For files larger than 5 GB, Wormhole uses peer-to-peer transfer to send your files directly from your browser to the recipient.</p>
+          <p>For files up to 2 GB.</p>
+          <p>For files larger than 2 GB, Wormhole uses peer-to-peer transfer to send your files directly from your browser to the recipient.</p>
         </div>
       ),
       icon: <FileBox className="h-6 w-6 text-blue-600 dark:text-blue-400" />,
@@ -58,10 +58,11 @@ export default function Faq() {
       question: "What features are coming soon?",
       answer: (
         <p>
-          See what features we're working on by visiting the{" "}
-          <a href="#" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+          we're working on some new features adding soon... 
+          
+          {/* <a href="#" className="text-indigo-600 dark:text-indigo-400 hover:underline">
             Roadmap <ExternalLink className="h-4 w-4 inline" />
-          </a>.
+          </a>. */}
         </p>
       ),
       icon: <RoadMap className="h-6 w-6 text-amber-600 dark:text-amber-400" />,
@@ -140,11 +141,11 @@ export default function Faq() {
         <div className="mt-16 bg-indigo-600 dark:bg-indigo-700 rounded-xl shadow-xl p-8 text-center">
           <h2 className="text-2xl font-bold text-white mb-4">Got a question that isn't answered here?</h2>
           <a
-            href="#"
+            href="/contact"
             className="inline-flex items-center px-6 py-3 border border-transparent text-lg font-medium rounded-lg text-indigo-600 bg-white hover:bg-indigo-50 dark:bg-gray-800 dark:text-indigo-400 dark:hover:bg-gray-700 transition-colors duration-300"
           >
             <MessagesSquare className="h-6 w-6 mr-2" />
-            Join our Discord Server
+             contact Us !
           </a>
         </div>
       </div>

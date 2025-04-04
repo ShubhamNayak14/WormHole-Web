@@ -87,7 +87,7 @@ export default function Suggestion() {
         {/* Map Section */}
         <div className="w-full h-[400px] relative">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937595!2d2.292292615509614!3d48.85837007928757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sEiffel%20Tower!5e0!3m2!1sen!2sus!4v1647544339985!5w!3h370"
+            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3742.1016633315103!2d85.8219648752368!3d20.296058681176216!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjDCsDE3JzQ1LjgiTiA4NcKwNDknMjguMyJF!5e0!3m2!1sen!2sin!4v1743799566121!5m2!1sen!2sin" 
             className="w-full h-full border-0"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
@@ -104,10 +104,10 @@ export default function Suggestion() {
                 Our Location
               </h2>
               <p className=" mt-1 text-accent-50">
-                Champ de Mars, 5 Av. Anatole France,
+                Bhubaneswar
               </p>
               <p className="text-accent-50">
-                75007 Paris, France
+              Odisha, India
               </p>
             </div>
           </div>

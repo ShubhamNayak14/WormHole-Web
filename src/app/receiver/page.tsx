@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { Snackbar, Alert } from "@mui/material";
 import {
   Download,
   Link2,
@@ -9,7 +10,6 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import axios from "axios";
-// import { redirect } from "react-router-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 
 function App() {
@@ -18,12 +18,17 @@ function App() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [alert, setAlert] = useState({
+    open: false,
+    message: "",
+    severity: "info", // 'success' | 'error' | 'warning' | 'info'
+  });
 
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const secureCode = searchParams.get("secureCode"); // Extract code from URL
+    const secureCode = searchParams.get("secureCode");
     if (secureCode) {
       setCode(secureCode);
     }
@@ -31,7 +36,13 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!code) return alert("Secure code is missing!");
+    if (!code) {
+      return setAlert({
+        open: true,
+        message: "Secure code is missing!",
+        severity: "warning",
+      });
+    }
 
     setIsDownloading(true);
     setProgress(0);
@@ -41,20 +52,29 @@ function App() {
         "http://127.0.0.1:5000/receive",
         { code: code },
         {
-          responseType: "blob", // Ensures file download as a binary Blob
+          responseType: "blob",
           headers: { "Content-Type": "application/json" },
         }
       );
+
+      if ((response.data as any).error === "Code already used") {
+        setAlert({
+          open: true,
+          message:
+            "This code has already been used! Please use a different one.",
+          severity: "error",
+        });
+        setIsDownloading(false);
+        return;
+      }
+
       const blob = new Blob([response.data], {
-        type: response.headers['content-type'],
+        type: response.headers["content-type"],
       });
-
-
-      // Create a Blob URL to allow file download
       const url = window.URL.createObjectURL(blob);
       setDownloadUrl(url);
 
-      // Simulate progress update
+      // Simulate progress
       let currentProgress = 0;
       const interval = setInterval(() => {
         currentProgress += 10;
@@ -64,11 +84,21 @@ function App() {
           clearInterval(interval);
           setIsDownloading(false);
           setIsCompleted(true);
+          setAlert({
+            open: true,
+            message: "File received successfully!",
+            severity: "success",
+          });
         }
       }, 500);
     } catch (error) {
       console.error("Download failed:", error);
       setIsDownloading(false);
+      setAlert({
+        open: true,
+        message: "Something went wrong during download!",
+        severity: "error",
+      });
     }
   };
 
@@ -84,9 +114,9 @@ function App() {
   };
 
   const handleDownload = () => {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = downloadUrl;
-    link.download = 'receive_file';
+    link.download = "received_file";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -105,20 +135,15 @@ function App() {
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               File Received Successfully!
             </h2>
-            <p className="text-gray-600 mb-8">
-              Your file has been received .
-            </p>
+            <p className="text-gray-600 mb-8">Your file has been received.</p>
             <div className="space-y-4">
-              {isCompleted && (
-                <button
-                  type="button"
-                  onClick={handleDownload}
-                  className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-200
-                  bg-green-500 hover:bg-green-600 active:bg-green-700`}
-                >
-                  Download File
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={handleDownload}
+                className="w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-200 bg-green-500 hover:bg-green-600 active:bg-green-700"
+              >
+                Download File
+              </button>
               <button
                 onClick={handleReset}
                 className="w-full py-3 px-4 rounded-lg text-white font-medium bg-blue-500 hover:bg-blue-600 active:bg-blue-700 transition-all duration-200"
@@ -148,6 +173,10 @@ function App() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
+                <p className="text-sm text-red-500 mb-1 ">
+                  🔒 Note: One secure code is valid for{" "}
+                  <strong>one-time use only</strong>.
+                </p>
                 <label
                   htmlFor="code"
                   className="block text-sm font-medium text-gray-700 mb-2"
@@ -171,7 +200,6 @@ function App() {
               </div>
 
               {downloadUrl && (
-
                 <div className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                     <Link2 size={16} />
@@ -197,19 +225,34 @@ function App() {
               <button
                 type="submit"
                 disabled={!code || isDownloading}
-                className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-200
-                  ${!code || isDownloading
+                className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-200 ${
+                  !code || isDownloading
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-blue-500 hover:bg-blue-600 active:bg-blue-700"
-                  }`}
+                }`}
               >
                 {isDownloading ? "Downloading..." : "Download File"}
               </button>
-
             </form>
           </>
         )}
       </div>
+
+      {/* Snackbar for feedback */}
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={5000}
+        onClose={() => setAlert({ ...alert, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setAlert({ ...alert, open: false })}
+          severity={alert.severity as any}
+          variant="filled"
+        >
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

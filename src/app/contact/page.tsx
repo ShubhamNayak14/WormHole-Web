@@ -78,9 +78,9 @@ function App() {
           <h2 className="text-2xl font-bold text-gray-800 dark:text-indigo-400 text-center">Contact Information</h2>
           <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-12">
             {[
-              { icon: MapPin, title: "Our Location", text: "123 Innovation Drive\nTech Valley, CA 94043" },
-              { icon: Phone, title: "Phone", text: "+1 (555) 123-4567" },
-              { icon: Mail, title: "Email", text: "contact@company.com" },
+              { icon: MapPin, title: "Our Location", text: "Odisha, India" },
+              { icon: Phone, title: "Phone", text: "+91 881572XXXX" },
+              { icon: Mail, title: "Email", text: "shubhamnayak446@gmail.com" },
             ].map(({ icon: Icon, title, text }, index) => (
               <div key={index} className="flex flex-col items-center space-y-2">
                 <div className="bg-indigo-100 dark:bg-gray-800 p-3 rounded-full transition-transform duration-300 hover:scale-110">
@@ -97,10 +97,10 @@ function App() {
           {/* Map */}
           <div className="w-full h-[300px] md:h-[400px] rounded-lg overflow-hidden shadow-lg dark:shadow-gray-900 transition-shadow duration-500">
             <iframe
-              src="https://www.google.com/maps/embed?..."
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3835014.6514888075!2d81.7953700569658!3d20.170249755038604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a226aece9af3bfd%3A0x133625caa9cea81f!2sOdisha!5e0!3m2!1sen!2sin!4v1743777752347!5m2!1sen!2sin"
               width="100%"
               height="100%"
-              style={{ border: 0 }}
+              style={{ filter:'blueGrey(100%)',border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

@@ -8,8 +8,9 @@ import StepCard from "./StepCard";
 import ProgressIndicator from "./Progess";
 import CodeDisplay from "./CodeDisplay";
 import TransferStatus from "./TransferStatus";
-import { ArrowLeft, Route } from "lucide-react";
 import { QRCodeCanvas } from "qrcode.react";
+import { Snackbar, Alert } from "@mui/material"; 
+
 
 const Sender = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -28,23 +29,24 @@ const Sender = () => {
       setTransferStatus(null);
     }
   };
+  const [alert, setAlert] = useState({ open: false, severity: "success", message: "" });
 
   const handleFileTransfer = async () => {
     if (!file) return;
-
+  
     setTransferStatus("transferring");
     setCurrentStep(2);
-
+  
     let progress = 0;
     const progressInterval = setInterval(() => {
       progress += 10;
       setTransferProgress(progress);
     }, 600);
-
+  
     try {
       const formData = new FormData();
       formData.append("file", file);
-
+  
       const response = await axios.post(
         "http://127.0.0.1:5000/send",
         formData,
@@ -52,19 +54,22 @@ const Sender = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
+  
       clearInterval(progressInterval);
       setTransferProgress(100);
       setTransferStatus("completed");
       setSecureCode(response.data.code);
       setTimeout(() => setCurrentStep(3), 1000);
+  
+      setAlert({ open: true, severity: "success", message: "File successfully sent!" });
     } catch (error) {
       clearInterval(progressInterval);
       setTransferStatus("error");
+  
+      setAlert({ open: true, severity: "error", message: "File transfer failed. Please try again!" });
       console.error("File transfer failed:", error);
     }
   };
-
   const resetProcess = () => {
     setFile(null);
     setSecureCode(null);
@@ -229,6 +234,18 @@ const Sender = () => {
           </div>
         </section>
       </main>
+      
+      {/* MUI Snackbar Alert */}
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={5000}
+        onClose={() => setAlert({ ...alert, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity as any}>
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
