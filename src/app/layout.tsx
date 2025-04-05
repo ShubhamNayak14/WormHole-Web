@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto, Roboto_Mono } from "next/font/google";
 import "./globals.css";
-import { FloatingNavDemo } from "@/components/navbar";
+
 import {WormholeLogo} from "@/components/logo";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
@@ -44,7 +44,7 @@ export default function RootLayout({
           <WormholeLogo />
         </div>
 
-        <FloatingNavDemo />
+        {/* <FloatingNavDemo /> */}
         {children}
       </ThemeProvider>
  

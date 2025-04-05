@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, Suspense } from "react";
 import { Snackbar, Alert } from "@mui/material";
 import {
   Download,
@@ -11,12 +11,26 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AlertColor } from '@mui/material/Alert';
+import { AlertColor } from "@mui/material/Alert";
 
+// Inline SearchCodeFetcher to handle secureCode
+function SearchCodeFetcher({ onCode }: { onCode: (code: string) => void }) {
+  const searchParams = useSearchParams();
 
-function App() {
+  useEffect(() => {
+    const secureCode = searchParams.get("secureCode");
+    if (secureCode) {
+      onCode(secureCode);
+    }
+  }, [searchParams, onCode]);
+
+  return null;
+}
+
+export default function App() {
   const [code, setCode] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
+  const [filename, setFilename] = useState("received_file");
   const [isDownloading, setIsDownloading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -26,20 +40,18 @@ function App() {
     severity: AlertColor;
   }>({
     open: false,
-    message: '',
-    severity: 'info',
+    message: "",
+    severity: "info",
   });
-  
 
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const progressInterval = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const secureCode = searchParams.get("secureCode");
-    if (secureCode) {
-      setCode(secureCode);
-    }
-  }, [searchParams]);
+    return () => {
+      if (progressInterval.current) clearInterval(progressInterval.current);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,28 +69,31 @@ function App() {
     try {
       const response = await axios.post(
         "https://wormhole-server-production.up.railway.app/receive",
-        { code: code },
+        { code },
         {
           responseType: "blob",
           headers: { "Content-Type": "application/json" },
         }
       );
 
-      
+      const contentDisposition = response.headers["content-disposition"];
+      const suggestedName = contentDisposition?.match(/filename="?(.+)"?/)?.[1];
+      if (suggestedName) setFilename(suggestedName);
+
       const blob = new Blob([response.data], {
         type: response.headers["content-type"],
       });
-      const url = window.URL.createObjectURL(blob);
+
+      const url = URL.createObjectURL(blob);
       setDownloadUrl(url);
 
-      // Simulate progress
       let currentProgress = 0;
-      const interval = setInterval(() => {
+      progressInterval.current = setInterval(() => {
         currentProgress += 10;
         setProgress(currentProgress);
 
         if (currentProgress >= 100) {
-          clearInterval(interval);
+          if (progressInterval.current) clearInterval(progressInterval.current);
           setIsDownloading(false);
           setIsCompleted(true);
           setAlert({
@@ -87,7 +102,7 @@ function App() {
             severity: "success",
           });
         }
-      }, 500);
+      }, 300);
     } catch (error) {
       console.error("Download failed:", error);
       setIsDownloading(false);
@@ -102,6 +117,7 @@ function App() {
   const handleReset = () => {
     setCode("");
     setDownloadUrl("");
+    setFilename("received_file");
     setProgress(0);
     setIsCompleted(false);
   };
@@ -113,15 +129,20 @@ function App() {
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = downloadUrl;
-    link.download = "received_file";
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(downloadUrl);
   };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+      <Suspense fallback={null}>
+        <SearchCodeFetcher onCode={setCode} />
+      </Suspense>
+
+      <div className="bg-white dark:bg-[#1a1a1a] dark:text-white rounded-2xl shadow-2xl p-8 w-full max-w-md transition-colors duration-500">
         {isCompleted ? (
           <div className="text-center">
             <div className="flex items-center justify-center mb-6">
@@ -129,10 +150,10 @@ function App() {
                 <CheckCircle size={32} className="text-white" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
-              File Received Successfully!
-            </h2>
-            <p className="text-gray-600 mb-8">Your file has been received.</p>
+            <h2 className="text-2xl font-bold mb-4">File Received Successfully!</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-8">
+              Your file has been received.
+            </p>
             <div className="space-y-4">
               <button
                 type="button"
@@ -149,7 +170,7 @@ function App() {
               </button>
               <button
                 onClick={handleBackToSender}
-                className="w-full py-3 px-4 rounded-lg text-gray-700 font-medium bg-gray-100 hover:bg-gray-200 active:bg-gray-300 transition-all duration-200 flex items-center justify-center gap-2"
+                className="w-full py-3 px-4 rounded-lg text-gray-700 dark:text-white font-medium bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 flex items-center justify-center gap-2"
               >
                 <ArrowLeft size={20} />
                 Back to Sender Page
@@ -164,19 +185,19 @@ function App() {
               </div>
             </div>
 
-            <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
+            <h1 className="text-2xl font-bold text-center mb-6">
               Receive Your File
             </h1>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <p className="text-sm text-red-500 mb-1 ">
+                <p className="text-sm text-red-500 mb-1">
                   🔒 Note: One secure code is valid for{" "}
                   <strong>one-time use only</strong>.
                 </p>
                 <label
                   htmlFor="code"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm font-medium mb-2"
                 >
                   Enter Your Code
                 </label>
@@ -197,8 +218,8 @@ function App() {
               </div>
 
               {downloadUrl && (
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-2">
                     <Link2 size={16} />
                     <span className="truncate">{downloadUrl}</span>
                   </div>
@@ -211,9 +232,7 @@ function App() {
                           style={{ width: `${progress}%` }}
                         />
                       </div>
-                      <p className="text-sm text-gray-600 text-right">
-                        {progress}%
-                      </p>
+                      <p className="text-sm text-right">{progress}%</p>
                     </div>
                   )}
                 </div>
@@ -235,16 +254,15 @@ function App() {
         )}
       </div>
 
-      {/* Snackbar for feedback */}
       <Snackbar
         open={alert.open}
         autoHideDuration={5000}
         onClose={() => setAlert({ ...alert, open: false })}
-        anchorOrigin={{vertical: "bottom", horizontal: "right" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Alert
           onClose={() => setAlert({ ...alert, open: false })}
-          severity={alert.severity  }
+          severity={alert.severity}
           variant="filled"
         >
           {alert.message}
@@ -253,5 +271,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
