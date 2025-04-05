@@ -55,6 +55,7 @@ const FeatureSection: React.FC = () => {
         </p>
 
         {/* File Sharing GIF */}
+        <video  src="https://cdn.dribbble.com/userupload/16940557/file/original-847fc790ff534b885d67b99b2c9be70f.mp4" preload="auto" playsInline={true} muted={true}></video>
         {/* <Image 
           src="https://i.gifer.com/NTHO.gif" // Replace with actual GIF URL
           alt="File Sharing Animation"

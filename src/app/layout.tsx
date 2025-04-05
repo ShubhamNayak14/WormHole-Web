@@ -5,6 +5,7 @@ import "./globals.css";
 import {WormholeLogo} from "@/components/logo";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { FloatingNavDemo } from "@/components/navbar";
 
 
 
@@ -44,7 +45,7 @@ export default function RootLayout({
           <WormholeLogo />
         </div>
 
-        {/* <FloatingNavDemo /> */}
+        <FloatingNavDemo />
         {children}
       </ThemeProvider>
  
