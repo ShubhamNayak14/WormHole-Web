@@ -1,8 +1,14 @@
-
+"use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import { FileSearch2 } from "lucide-react";
+
+// Dynamically import the icon with SSR disabled
+const FileSearch2 = dynamic(() =>
+  import("lucide-react").then((mod) => mod.FileSearch2),
+  { ssr: false }
+);
 
 export default function NotFound() {
   return (
@@ -13,26 +19,22 @@ export default function NotFound() {
             <FileSearch2 className="w-12 h-12 text-red-600 dark:text-red-400" />
           </div>
         </div>
-        
+
         <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
           404 - Page Not Found
         </h1>
-        
+
         <p className="text-lg text-gray-600 dark:text-gray-400">
           Oops! The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
-        
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild variant="default" size="lg">
-            <Link href="/">
-              Go Home
-            </Link>
+            <Link href="/">Go Home</Link>
           </Button>
-          
+
           <Button asChild variant="outline" size="lg">
-            <Link href="/contact">
-              Contact Support
-            </Link>
+            <Link href="/contact">Contact Support</Link>
           </Button>
         </div>
       </div>
