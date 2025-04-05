@@ -1,3 +1,4 @@
+// components/Faq.tsx
 "use client";
 import React, { useState } from "react";
 import {
@@ -58,10 +59,6 @@ export default function Faq() {
       answer: (
         <p>
           we&rsquo;re working on some new features adding soon... 
-          
-          {/* <a href="#" className="text-indigo-600 dark:text-indigo-400 hover:underline">
-            Roadmap <ExternalLink className="h-4 w-4 inline" />
-          </a>. */}
         </p>
       ),
       icon: <RoadMap className="h-6 w-6 text-amber-600 dark:text-amber-400" />,
@@ -144,7 +141,7 @@ export default function Faq() {
             className="inline-flex items-center px-6 py-3 border border-transparent text-lg font-medium rounded-lg text-indigo-600 bg-white hover:bg-indigo-50 dark:bg-gray-800 dark:text-indigo-400 dark:hover:bg-gray-700 transition-colors duration-300"
           >
             <MessagesSquare className="h-6 w-6 mr-2" />
-             contact Us !
+            Contact Us!
           </a>
         </div>
       </div>

@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react';
 import {
   Lock,
@@ -9,7 +11,11 @@ import {
   XCircle,
   FileCode2,
 } from 'lucide-react';
-import { Footer } from '@/components/footer';
+
+import dynamic from 'next/dynamic';
+const Footer = dynamic(() => import('@/components/footer').then(mod => mod.Footer), { 
+  ssr: false 
+});
 
 function SecurityFeature({ 
   icon: Icon, 

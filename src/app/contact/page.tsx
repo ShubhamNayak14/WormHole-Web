@@ -1,17 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MapPin, Phone, Mail, Send, MessageSquare } from "lucide-react";
-import emailjs from '@emailjs/browser';
 import { Snackbar, Alert } from "@mui/material"; 
-import { AlertColor } from '@mui/material/Alert';
+import type { AlertColor } from '@mui/material/Alert';
 
-
-function App() {
-  const serviceId: string = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
-  const templateId: string = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string;
-  const publicKey: string = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string;
-
+function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,7 +22,11 @@ function App() {
     message: '',
     severity: 'info',
   });
-  
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,22 +39,22 @@ function App() {
     setIsSubmitting(true);
 
     try {
-      const result = await emailjs.send(
-        serviceId,
-        templateId,
+      // Dynamically import emailjs only when needed (client-side)
+      const emailjs = (await import('@emailjs/browser')).default;
+      
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
         {
           user_name: formData.name,
           user_email: formData.email,
           subject: formData.subject,
           message: formData.message,
         },
-        publicKey
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
 
-      
-      console.log("Message sent successfully:", result.text);
       setAlert({ open: true, severity: "success", message: "Message sent successfully!" });
-
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
       console.error("Failed to send message:", error);
@@ -73,10 +71,14 @@ function App() {
     }));
   };
 
+  if (!isClient) {
+    return <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a]"></div>;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-500">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-indigo-600 to-purple-700  text-white py-20 px-4">
+      <div className="bg-gradient-to-br from-indigo-600 to-purple-700 text-white py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h1>
           <p className="text-xl text-indigo-100">We&rsquo;d love to hear from you. Let&rsquo;s start a conversation.</p>
@@ -111,11 +113,11 @@ function App() {
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3835014.6514888075!2d81.7953700569658!3d20.170249755038604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a226aece9af3bfd%3A0x133625caa9cea81f!2sOdisha!5e0!3m2!1sen!2sin!4v1743777752347!5m2!1sen!2sin"
               width="100%"
               height="100%"
-              style={{ filter:'blueGrey(100%)',border: 0 }}
+              style={{ filter: 'blueGrey(100%)', border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+            />
           </div>
         </div>
 
@@ -193,4 +195,4 @@ function App() {
   );
 }
 
-export default App;
+export default ContactPage;

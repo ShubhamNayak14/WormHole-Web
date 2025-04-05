@@ -2,8 +2,6 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import axios from "axios";
-import AnimatedBackground from "./AnimatedBackground";
-import FileUpload from "./FileUpload";
 import StepCard from "./StepCard";
 import ProgressIndicator from "./Progess";
 import CodeDisplay from "./CodeDisplay";
@@ -11,6 +9,19 @@ import TransferStatus from "./TransferStatus";
 import { QRCodeCanvas } from "qrcode.react";
 import { Snackbar, Alert } from "@mui/material"; 
 import { AlertColor } from '@mui/material/Alert';
+
+
+// Dynamic imports for client-side only components
+import dynamic from "next/dynamic";
+const AnimatedBackground = dynamic(() => import("./AnimatedBackground"), { 
+  ssr: false,
+  loading: () => <div className="fixed inset-0 bg-gray-100" /> // Optional loading fallback
+});
+
+const FileUpload = dynamic(() => import("./FileUpload"), {
+  ssr: false,
+  loading: () => <div className="p-4 border rounded-lg">Preparing upload...</div>
+});
 
 
 
