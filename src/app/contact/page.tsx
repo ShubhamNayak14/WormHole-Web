@@ -172,7 +172,7 @@ function App() {
         open={alert.open}
         autoHideDuration={5000}
         onClose={() => setAlert({ ...alert, open: false })}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorOrigin={{vertical: "bottom", horizontal: "right" }}
       >
         <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity as any}>
           {alert.message}

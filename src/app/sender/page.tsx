@@ -48,7 +48,7 @@ const Sender = () => {
       formData.append("file", file);
   
       const response = await axios.post(
-        "http://127.0.0.1:5000/send",
+        "https://wormhole-server-production.up.railway.app/send",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -240,7 +240,7 @@ const Sender = () => {
         open={alert.open}
         autoHideDuration={5000}
         onClose={() => setAlert({ ...alert, open: false })}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity as any}>
           {alert.message}

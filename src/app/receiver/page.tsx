@@ -49,7 +49,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/receive",
+        "https://wormhole-server-production.up.railway.app/receive",
         { code: code },
         {
           responseType: "blob",
@@ -243,7 +243,7 @@ function App() {
         open={alert.open}
         autoHideDuration={5000}
         onClose={() => setAlert({ ...alert, open: false })}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorOrigin={{vertical: "bottom", horizontal: "right" }}
       >
         <Alert
           onClose={() => setAlert({ ...alert, open: false })}
