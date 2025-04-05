@@ -1,5 +1,4 @@
 import React from "react";
-import { cn } from "@/lib/utils";
 
 interface TransferStatusProps {
   status: "pending" | "transferring" | "completed" | "error";

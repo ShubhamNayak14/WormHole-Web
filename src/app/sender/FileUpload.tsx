@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import Image from "next/image";
 
 interface FileUploadProps {
   onFileChange: (file: File | null) => void;
@@ -65,7 +66,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileChange }) => {
         {file ? (
           <div className="animate-fade-in flex flex-col items-center">
             {previewURL ? (
-              <img
+              <Image
                 src={previewURL}
                 alt="Preview"
                 className="w-24 h-24 object-cover rounded-lg shadow-md border border-gray-300 dark:border-gray-600"

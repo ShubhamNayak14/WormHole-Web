@@ -1,5 +1,6 @@
 import React from "react";
 import { Lock, Zap, KeyRound } from "lucide-react";
+import Image from "next/image";
 
 interface Feature {
   title: string;
@@ -54,7 +55,7 @@ const FeatureSection: React.FC = () => {
         </p>
 
         {/* File Sharing GIF */}
-        <img
+        <Image
           src="https://i.gifer.com/NTHO.gif" // Replace with actual GIF URL
           alt="File Sharing Animation"
           className="mt-6 rounded-xl shadow-lg min-w-0.5 w-150 h-80"

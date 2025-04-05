@@ -1,8 +1,7 @@
 "use client";
-import { Send, Inbox, ArrowLeft ,Upload, Download} from "lucide-react";
+import { Send, ArrowLeft ,Upload, Download} from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Sender from "../sender/page";
 
 export default function RoleSelection() {
   const router = useRouter();

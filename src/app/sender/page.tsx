@@ -10,6 +10,8 @@ import CodeDisplay from "./CodeDisplay";
 import TransferStatus from "./TransferStatus";
 import { QRCodeCanvas } from "qrcode.react";
 import { Snackbar, Alert } from "@mui/material"; 
+import { AlertColor } from '@mui/material/Alert';
+
 
 
 const Sender = () => {
@@ -29,7 +31,16 @@ const Sender = () => {
       setTransferStatus(null);
     }
   };
-  const [alert, setAlert] = useState({ open: false, severity: "success", message: "" });
+  const [alert, setAlert] = useState<{
+    open: boolean;
+    message: string;
+    severity: AlertColor;
+  }>({
+    open: false,
+    message: '',
+    severity: 'info',
+  });
+  
 
   const handleFileTransfer = async () => {
     if (!file) return;
@@ -242,7 +253,7 @@ const Sender = () => {
         onClose={() => setAlert({ ...alert, open: false })}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity as any}>
+        <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity }>
           {alert.message}
         </Alert>
       </Snackbar>

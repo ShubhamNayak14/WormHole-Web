@@ -34,10 +34,8 @@ export function LinkPreviewDemo() {
       {/* GitHub Link */}
       <div className="max-w-xl mx-auto mt-6 sm:mt-10 text-sm sm:text-base md:text-lg font-medium text-gray-800 dark:text-gray-200 text-center flex items-center justify-center gap-2 transition-colors duration-300">
         <LinkPreview url="https://github.com/magic-wormhole/magic-wormhole">
-          <div className="flex items-center justify-center gap-2">
-            <Github className="text-gray-800 dark:text-blue-500" size={24} />
-            <span>Github</span>
-          </div>
+            
+            <span><Github className="text-gray-800 dark:text-blue-500" size={24} /> Github</span>
         </LinkPreview>
       </div>
     </div>

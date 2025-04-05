@@ -12,8 +12,17 @@ import {
   Download,
   Lock,
 } from "lucide-react";
+import Image from "next/image";
 
-function FeatureCard({ icon: Icon, title, description }: { icon: React.ElementType, title: string, description: string }) {
+function FeatureCard({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}) {
   return (
     <div className="bg-white dark:bg-[#1a1a1a] p-6 rounded-xl shadow-md hover:shadow-xl transition-transform hover:-translate-y-1">
       <div className="flex items-center mb-4">
@@ -27,7 +36,17 @@ function FeatureCard({ icon: Icon, title, description }: { icon: React.ElementTy
   );
 }
 
-function StepCard({ number, icon: Icon, title, description }: { number: string, icon: React.ElementType, title: string, description: string }) {
+function StepCard({
+  number,
+  icon: Icon,
+  title,
+  description,
+}: {
+  number: string;
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}) {
   return (
     <div className="flex items-start space-x-4">
       <div className="flex-shrink-0 bg-indigo-100 dark:bg-gray-800 rounded-full p-3">
@@ -70,8 +89,8 @@ function App() {
             </h2>
             <div className="prose text-gray-600 dark:text-gray-400 space-y-4">
               <p>
-                Picture this: You're sitting next to a colleague, racing against
-                a tight deadline. They need to share a large file with
+                Picture this: You&rsquo;re sitting next to a colleague, racing
+                against a tight deadline. They need to share a large file with
                 you—should be simple, right? But the file is too large for
                 email. No USB stick in sight. Different operating systems rule
                 out AirDrop. The only solution? Splitting the file and uploading
@@ -79,12 +98,13 @@ function App() {
                 continents just to reach someone sitting right next to you.
               </p>
               <p>
-                It's absurd when you think about it. You can share a coffee,
-                pass a document, or offer a toffee to your colleague without any
-                intermediary—why should digital file sharing be any different?
+                It&rsquo;s absurd when you think about it. You can share a
+                coffee, pass a document, or offer a toffee to your colleague
+                without any intermediary—why should digital file sharing be any
+                different?
               </p>
               <p className="text-lg font-medium text-indigo-600 dark:text-indigo-400">
-                That's why we created SecureShare: to make file sharing as
+                That&rsquo;s why we created SecureShare: to make file sharing as
                 simple as passing a note to the person next to you, but with
                 bank-grade security built in.
               </p>
@@ -96,7 +116,7 @@ function App() {
           <h4 className="text-2xl font-semibold text-gray-800 dark:text-gray-300  mb-4 text-center">
             Traditional File Sharing
           </h4>
-          <img
+          <Image
             src="img1.jpeg"
             alt="Traditional file sharing through third-party servers"
             className="w-full max-w-4xl mx-auto rounded-lg"
@@ -148,14 +168,15 @@ function App() {
           <h4 className="text-2xl font-semibold text-gray-800 dark:text-gray-300  mb-4 text-center">
             WormHole File Sharing
           </h4>
-          <img
+          <Image
             src="img.jpeg"
             alt="Traditional file sharing through third-party servers"
             className="w-full max-w-4xl mx-auto rounded-lg"
           />
           <p className="text-gray-800 dark:text-gray-300 mt-4 text-center">
-            "I like how we've had the Internet for decades, yet 'sending files'
-            is something early adopters are still figuring out how to do."
+            &quot;I like how we&rsquo;ve had the Internet for decades, yet
+            &lsquo;sending files&rsquo; is something early adopters are still
+            figuring out how to do.&quot;
           </p>
         </div>
 
@@ -189,10 +210,10 @@ function App() {
           <p className="text-lg mb-8">
             No storage. No tracking. Just private, secure file sharing.
           </p>
-          <Link href={"/main"} >
-          <button className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
-            Try WormHole Now 🚀
-          </button>
+          <Link href={"/main"}>
+            <button className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+              Try WormHole Now 🚀
+            </button>
           </Link>
         </section>
       </div>

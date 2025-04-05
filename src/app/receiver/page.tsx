@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
+import { AlertColor } from '@mui/material/Alert';
+
 
 function App() {
   const [code, setCode] = useState("");
@@ -18,11 +20,16 @@ function App() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [alert, setAlert] = useState({
+  const [alert, setAlert] = useState<{
+    open: boolean;
+    message: string;
+    severity: AlertColor;
+  }>({
     open: false,
-    message: "",
-    severity: "info", // 'success' | 'error' | 'warning' | 'info'
+    message: '',
+    severity: 'info',
   });
+  
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -57,17 +64,7 @@ function App() {
         }
       );
 
-      if ((response.data as any).error === "Code already used") {
-        setAlert({
-          open: true,
-          message:
-            "This code has already been used! Please use a different one.",
-          severity: "error",
-        });
-        setIsDownloading(false);
-        return;
-      }
-
+      
       const blob = new Blob([response.data], {
         type: response.headers["content-type"],
       });
@@ -247,7 +244,7 @@ function App() {
       >
         <Alert
           onClose={() => setAlert({ ...alert, open: false })}
-          severity={alert.severity as any}
+          severity={alert.severity  }
           variant="filled"
         >
           {alert.message}

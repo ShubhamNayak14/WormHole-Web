@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { MapPin, Phone, Mail, Send, MessageSquare } from "lucide-react";
 import emailjs from '@emailjs/browser';
 import { Snackbar, Alert } from "@mui/material"; 
+import { AlertColor } from '@mui/material/Alert';
+
 
 function App() {
   const serviceId: string = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
@@ -17,7 +19,16 @@ function App() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [alert, setAlert] = useState({ open: false, severity: "success", message: "" });
+  const [alert, setAlert] = useState<{
+    open: boolean;
+    message: string;
+    severity: AlertColor;
+  }>({
+    open: false,
+    message: '',
+    severity: 'info',
+  });
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,7 +79,7 @@ function App() {
       <div className="bg-gradient-to-br from-indigo-600 to-purple-700  text-white py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h1>
-          <p className="text-xl text-indigo-100">We'd love to hear from you. Let's start a conversation.</p>
+          <p className="text-xl text-indigo-100">We&rsquo;d love to hear from you. Let&rsquo;s start a conversation.</p>
         </div>
       </div>
 
@@ -174,7 +185,7 @@ function App() {
         onClose={() => setAlert({ ...alert, open: false })}
         anchorOrigin={{vertical: "bottom", horizontal: "right" }}
       >
-        <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity as any}>
+        <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity}>
           {alert.message}
         </Alert>
       </Snackbar>

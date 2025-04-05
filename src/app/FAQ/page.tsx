@@ -4,7 +4,6 @@ import {
   MessageCircleQuestion,
   ChevronDown,
   ChevronUp,
-  ExternalLink,
   Shield,
   FileBox,
   Smartphone,
@@ -30,7 +29,7 @@ export default function Faq() {
       answer: (
         <div className="space-y-4">
           <p>
-            Every design decision in Wormhole begins with the safety and privacy of your data in mind. We can't read your files, and no one else can either. Privacy isn't an optional mode — it's just the way that Wormhole works.
+            Every design decision in Wormhole begins with the safety and privacy of your data in mind. We can&rsquo;t read your files, and no one else can either. Privacy isn&rsquo;t an optional mode — it&rsquo;s just the way that Wormhole works.
           </p>
           <p>
             Wormhole uses end-to-end encryption to protect your files so they can never be shared or viewed by anyone but you and the intended recipients. Files are permanently deleted from the server after 24 hours.
@@ -58,7 +57,7 @@ export default function Faq() {
       question: "What features are coming soon?",
       answer: (
         <p>
-          we're working on some new features adding soon... 
+          we&rsquo;re working on some new features adding soon... 
           
           {/* <a href="#" className="text-indigo-600 dark:text-indigo-400 hover:underline">
             Roadmap <ExternalLink className="h-4 w-4 inline" />
@@ -99,7 +98,7 @@ export default function Faq() {
             Frequently Asked Questions
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            We're working to make Wormhole the best file-sending tool. If you have a question, come ask it in our Discord server!
+            We&rsquo;re working to make Wormhole the best file-sending tool. If you have a question, come ask it in our Discord server!
           </p>
         </div>
 
@@ -139,7 +138,7 @@ export default function Faq() {
 
         {/* Discord CTA */}
         <div className="mt-16 bg-indigo-600 dark:bg-indigo-700 rounded-xl shadow-xl p-8 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Got a question that isn't answered here?</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Got a question that isn&rsquo;t answered here?</h2>
           <a
             href="/contact"
             className="inline-flex items-center px-6 py-3 border border-transparent text-lg font-medium rounded-lg text-indigo-600 bg-white hover:bg-indigo-50 dark:bg-gray-800 dark:text-indigo-400 dark:hover:bg-gray-700 transition-colors duration-300"

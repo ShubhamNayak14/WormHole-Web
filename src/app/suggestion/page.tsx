@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import {
   Send,
@@ -9,15 +10,24 @@ import {
   MapPin,
 } from "lucide-react";
 import { Footer } from "@/components/footer";
-import emailjs from "@emailjs/browser";
 import { Snackbar, Alert } from "@mui/material"; 
+import { AlertColor } from '@mui/material/Alert';
+
 
 type FeedbackType = "suggestion" | "bug" | "feedback";
 
 export default function Suggestion() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [alert, setAlert] = useState({ open: false, severity: "success", message: "" });
-
+  const [alert, setAlert] = useState<{
+    open: boolean;
+    message: string;
+    severity: AlertColor;
+  }>({
+    open: false,
+    message: '',
+    severity: 'info',
+  });
+  
   const serviceId: string = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
   const templateId: string = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_SUGGESTION as string;
   const publicKey: string = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string;
@@ -40,6 +50,7 @@ export default function Suggestion() {
     setIsSubmitting(true);
 
     try {
+      const emailjs = await import("@emailjs/browser");
       const result = await emailjs.send(
         serviceId,
         templateId,
@@ -247,7 +258,7 @@ export default function Suggestion() {
         onClose={() => setAlert({ ...alert, open: false })}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity as any}>
+        <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity}>
           {alert.message}
         </Alert>
       </Snackbar>
