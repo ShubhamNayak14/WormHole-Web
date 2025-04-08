@@ -207,7 +207,7 @@ export default function App() {
                     id="code"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    className="block w-full px-4 py-3 text-black rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="block w-full px-4 py-3 text-black dark:text-accent-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="Enter your code here"
                   />
                   <Download
